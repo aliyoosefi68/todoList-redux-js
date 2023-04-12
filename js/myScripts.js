@@ -3,40 +3,60 @@ import {
   removeTodo,
   doTodo,
   filterAllTodos,
-  filterCompletedTodos,
-  filterUnCompletedTodos,
+  filterCompTodos,
+  filterInCompTodos,
 } from "./Redux/action.js";
 
-//create todolist Reducer
-const todolistReducer = (state = [], action) => {
+import { addTodoAction } from "./Redux/actionCreators.js";
+
+const todoInput = document.querySelector(".todo-input");
+const todoBtn = document.querySelector(".todo-button");
+
+//Create Reduce todo list ---------------------------------------
+const todoListReducer = (state = [], action) => {
   switch (action.type) {
     case addTodo: {
-      return state;
+      let newState = [...state];
+      let newTodoObject = {
+        id: crypto.randomUUID(),
+        title: action.title,
+        isCompleted: false,
+      };
+      newState.push(newTodoObject);
+      return newState;
     }
     case removeTodo: {
       return state;
     }
-
     case doTodo: {
       return state;
     }
     case filterAllTodos: {
       return state;
     }
-    case filterCompletedTodos: {
+    case filterCompTodos: {
       return state;
     }
-    case filterUnCompletedTodos: {
+    case filterInCompTodos: {
       return state;
     }
-
     default: {
       return state;
     }
   }
 };
 
-//create Store
-const store = Redux.createStore(todolistReducer);
-
+//------------------make store-------------------
+const store = Redux.createStore(todoListReducer);
 console.log(store);
+
+//------------------
+todoBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  const newTodoTitle = todoInput.value.trim();
+
+  store.dispatch(addTodoAction(newTodoTitle));
+  const todos = store.getState();
+  todoInput.value = "";
+  console.log(todos);
+});

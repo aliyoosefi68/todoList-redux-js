@@ -2,6 +2,6 @@ export const addTodo = "ADD_TODO";
 export const removeTodo = "REMOVE_TODO";
 export const doTodo = "DO_TODO";
 
-export const filterAllTodos = "FILTER_ALL_TODOS";
-export const filterCompletedTodos = "FILTER_COMPLETED_TODOS";
-export const filterUnCompletedTodos = "FILTER_UNCOMPLETED_TODOS";
+export const filterAllTodos = "ALL_TODOS";
+export const filterCompTodos = "COMP_TODOS";
+export const filterInCompTodos = "INCOMP_TODOS";
