@@ -7,7 +7,13 @@ import {
   filterInCompTodos,
 } from "./Redux/action.js";
 
-import { addTodoAction } from "./Redux/actionCreators.js";
+import {
+  addTodoAction,
+  removeTodoAction,
+  doTodoAction,
+} from "./Redux/actionCreators.js";
+window.removeTodoHandler = removeTodoHandler;
+window.completeHandler = completeHandler;
 
 const todoInput = document.querySelector(".todo-input");
 const todoBtn = document.querySelector(".todo-button");
@@ -28,11 +34,19 @@ const todoListReducer = (state = [], action) => {
     }
     case removeTodo: {
       let newState = [...state];
-
-      return state;
+      let removetodos = newState.filter((todo) => todo.id !== action.id);
+      return removetodos;
     }
+
     case doTodo: {
-      return state;
+      let newState = [...state];
+      newState.some((todo) => {
+        if (todo.id === action.id) {
+          todo.isCompleted = !todo.isCompleted;
+        }
+      });
+
+      return newState;
     }
     case filterAllTodos: {
       return state;
@@ -65,18 +79,30 @@ todoBtn.addEventListener("click", (event) => {
   console.log(todos);
 });
 
+function removeTodoHandler(todoId) {
+  store.dispatch(removeTodoAction(todoId));
+  const todos = store.getState();
+  shownTodos(todos);
+}
+
+function completeHandler(todoId) {
+  store.dispatch(doTodoAction(todoId));
+  const todos = store.getState();
+  shownTodos(todos);
+}
+
 const shownTodos = (todos) => {
   todoList.innerHTML = "";
   todos.forEach((todo) => {
     todoList.insertAdjacentHTML(
       "beforeend",
       `
-    <div class="todo">
+    <div class="todo ${todo.isCompleted && "completed"}">
       <li class="todo-item">${todo.title}</li>
-      <button class="complete-btn">
-        <i class="fas fa-check-circle"></i>
+      <button class="complete-btn" onclick=completeHandler("${todo.id}") >
+                <i class="fas fa-check-circle"></i>
       </button>
-      <button class="trash-btn">
+      <button class="trash-btn" onclick = removeTodoHandler("${todo.id}")>
         <i class="fas fa-trash"></i>
       </button>
     </div>
