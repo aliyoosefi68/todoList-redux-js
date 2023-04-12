@@ -1,11 +1,4 @@
-import {
-  addTodo,
-  removeTodo,
-  doTodo,
-  filterAllTodos,
-  filterCompTodos,
-  filterInCompTodos,
-} from "./action.js";
+import { addTodo, removeTodo, doTodo, getAllTodos } from "./action.js";
 
 const addTodoAction = (title) => {
   return {
@@ -13,12 +6,20 @@ const addTodoAction = (title) => {
     title,
   };
 };
+
+const getAllTodosAction = () => {
+  return {
+    type: getAllTodos,
+  };
+};
+
 const removeTodoAction = (id) => {
   return {
     type: removeTodo,
     id,
   };
 };
+
 const doTodoAction = (id) => {
   return {
     type: doTodo,
@@ -26,4 +27,4 @@ const doTodoAction = (id) => {
   };
 };
 
-export { addTodoAction, removeTodoAction, doTodoAction };
+export { addTodoAction, removeTodoAction, doTodoAction, getAllTodosAction };
